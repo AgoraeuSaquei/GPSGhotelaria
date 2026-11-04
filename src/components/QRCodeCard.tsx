@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import QRCode from 'qrcode'
+import { withBasePath } from '../data/properties'
 import type { Property } from '../data/properties'
 
 type QRCodeCardProps = { property: Property }
 
 export function QRCodeCard({ property }: QRCodeCardProps) {
   const [dataUrl, setDataUrl] = useState('')
-  const routeUrl = `${window.location.origin}/voltar/${property.slug}`
+  const routeUrl = new URL(withBasePath(`/voltar/${property.slug}`), window.location.origin).toString()
 
   useEffect(() => {
     let active = true
@@ -22,7 +23,7 @@ export function QRCodeCard({ property }: QRCodeCardProps) {
         <p className="eyebrow">Acesso direto</p>
         <h2 id={`qr-title-${property.slug}`}>QR Code · {property.shortName}</h2>
         <p className="qr-copy">Aponte a câmera do celular para abrir o GPS já com este destino selecionado.</p>
-        <code>{routeUrl.replace(window.location.origin, '')}</code>
+        <code>{withBasePath(`/voltar/${property.slug}`)}</code>
       </div>
       {dataUrl ? (
         <div className="qr-actions">

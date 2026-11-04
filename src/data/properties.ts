@@ -46,7 +46,14 @@ export const PROPERTIES: Property[] = [
   },
 ]
 
+export function withBasePath(path: string): string {
+  const base = import.meta.env.BASE_URL || '/'
+  return `${base}${path.replace(/^\/+/, '')}`
+}
+
 export function propertyFromPath(pathname: string): Property | undefined {
-  const slug = pathname.match(/^\/voltar\/([^/]+)/)?.[1]
+  const base = import.meta.env.BASE_URL || '/'
+  const appPath = base === '/' ? pathname : pathname.startsWith(base) ? `/${pathname.slice(base.length)}` : pathname
+  const slug = appPath.match(/^\/voltar\/([^/]+)/)?.[1]
   return PROPERTIES.find((property) => property.slug === slug)
 }

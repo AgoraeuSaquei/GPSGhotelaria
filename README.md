@@ -20,6 +20,12 @@ Para gerar arquivos PNG prontos para impressão depois de conhecer o domínio fi
 
 Use `pnpm build`; o diretório `dist/` é estático. Configure fallback de SPA para `index.html` para que as rotas `/voltar/*` funcionem diretamente. Variáveis `VITE_*` são incorporadas ao bundle no build; não coloque segredos de alto privilégio no navegador. Para produção, prefira uma chave restrita por domínio ou um proxy próprio para o serviço de rotas. HTTPS é obrigatório para a Geolocation API.
 
+## Publicar no GitHub Pages
+
+Este repositório usa o workflow `.github/workflows/deploy.yml`. No GitHub, abra `Settings > Pages` e selecione `GitHub Actions` como fonte. Depois abra `Settings > Secrets and variables > Actions`, crie o secret `VITE_ORS_API_KEY` e cole uma chave de roteamento restrita ao domínio. Cada push na branch `main` executa o build e publica automaticamente.
+
+Como o repositório se chama `GPSGhotelaria`, o endereço padrão será `https://agoraeusaquei.github.io/GPSGhotelaria/`. O Vite já usa `/GPSGhotelaria/` no build de produção e o workflow cria um fallback `404.html` para as rotas dos QR Codes.
+
 ## Localizações verificadas
 
 As três referências fornecidas pelo Google Maps foram abertas durante a implementação. Os pontos usados são os pontos exibidos pelo estabelecimento e as fotos/entradas visíveis nas referências; ainda assim, a equipe local deve confirmar presencialmente a porta de chegada antes de uso operacional, pois o Google Maps não fornece garantia de acesso interno.

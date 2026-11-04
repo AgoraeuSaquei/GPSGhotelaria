@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type L from 'leaflet'
 import { MapView } from './components/MapView'
 import { QRCodeCard } from './components/QRCodeCard'
-import { PROPERTIES, propertyFromPath, type Property } from './data/properties'
+import { PROPERTIES, propertyFromPath, type Property, withBasePath } from './data/properties'
 import { describeLocationError, distanceBetween, distanceToRoute, locationFromPosition } from './services/geolocation'
 import { fetchWalkingRoute, formatDistance, formatDuration, hasRoutingConfiguration, type Coordinate, type WalkingRoute } from './services/routing'
 
@@ -24,7 +24,7 @@ function Home() {
         <p>Escolha sua pousada ou abra o link exclusivo do QR Code. Depois, permita o GPS para receber uma rota real a pé.</p>
       </section>
       <div className="property-list">
-        {PROPERTIES.map((item) => <a className="property-card" href={`/voltar/${item.slug}`} key={item.slug}>
+        {PROPERTIES.map((item) => <a className="property-card" href={withBasePath(`/voltar/${item.slug}`)} key={item.slug}>
           <span className="property-index">0{PROPERTIES.indexOf(item) + 1}</span>
           <span><strong>{item.name}</strong><small>{item.address}</small></span>
           <span className="arrow" aria-hidden="true">→</span>
@@ -156,7 +156,7 @@ function Navigation({ property }: NavigationProps) {
       <div className="map-stage">
         <MapView property={property} currentLocation={currentLocation} route={route} followLocation={followLocation} onMapReady={setMap} />
         <div className="map-topbar">
-          <a className="back-button" href="/" aria-label="Voltar para seleção de pousada">←</a>
+          <a className="back-button" href={withBasePath('/')} aria-label="Voltar para seleção de pousada">←</a>
           <div className="map-destination"><span className="mini-pin" /> <span>Destino</span><strong>{property.shortName}</strong></div>
           <button className="icon-button light" onClick={centerOnUser} aria-label="Centralizar no GPS">◎</button>
         </div>
